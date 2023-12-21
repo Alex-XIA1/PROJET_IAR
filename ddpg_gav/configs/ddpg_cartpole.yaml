@@ -1,0 +1,57 @@
+    save_best: False
+    plot_agents: False
+    collect_stats: True
+
+    log_dir: ./tmp
+    video_dir: ${log_dir}/videos
+
+    hydra:
+      run:
+        dir: ${log_dir}/hydra/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+    logger:
+      classname: bbrl.utils.logger.WandbLogger
+      project: "ddpg_study"
+      group: "tune_ddpg"
+      tags: "hp_ddpg"
+      job_type: test
+      log_dir: ${log_dir}
+      cache_size: 10000
+      every_n_seconds: 10
+      verbose: False
+
+    algorithm:
+
+      seed:
+        train: 8
+        eval: 4
+        q: 3
+        act: 5
+        explorer: 4
+        torch: 1
+
+      max_grad_norm: 0.5
+      n_envs: 1
+      n_steps_train: 1000
+      n_steps: 1000000
+      batch_size: 64
+      eval_interval: 100
+      learning_starts: 10000
+      nb_evals: 1
+      action_noise: 0.3
+      discount_factor: 0.99
+      architecture:
+        actor_hidden_size: [12, 12]
+        critic_hidden_size: [12, 12]
+
+    gym_env:
+      classname: __main__.make_gym_env
+      env_name: CartPoleContinuous-v1
+
+    actor_optimizer:
+      classname: torch.optim.SGD
+      lr: 1e-3
+
+    critic_optimizer:
+      classname: torch.optim.SGD
+      lr: 1e-3
