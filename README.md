@@ -1,9 +1,9 @@
 # PROJET_IAR
 
-UE INTELLIGENCE ARTIFICIELLE ET ROBOTIQUE
-2023-2024
+## UE INTELLIGENCE ARTIFICIELLE ET ROBOTIQUE
+### 2023-2024
 
-Reinforcement learning in continuous action spaces (CACLA)
+### Reinforcement learning in continuous action spaces (CACLA)
 
 H Van Hasselt, MA Wiering
 
