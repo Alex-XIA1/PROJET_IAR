@@ -1,5 +1,0 @@
-source /users/nfs/Enseignants/piwowarski/venv/deepdac/bin/activate;export http_proxy='http://proxy.ufr-info-p6.jussieu.fr:3128';export https_proxy='http://proxy.ufr-info-p6.jussieu.fr:3128'
-source $HOME/deepdac/bin/activate
-
-ssh -X 28601285@ssh.ufr-info-p6.jussieu.fr
-ssh -X ppti-14-509-04
