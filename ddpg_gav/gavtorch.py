@@ -207,7 +207,7 @@ def train(eval_env, train_env, model, eval_interval=5000, step_max=100000, explo
     obs,_ = train_env.reset()
     scores = np.array([0])
     count = 0
-    while it <= step_max+1:
+    while it <= step_max:
         it += 1
         model.critic_optim.zero_grad()
             
