@@ -240,8 +240,9 @@ def train(eval_env, train_env, model, eval_interval=5000, step_max=100000, explo
 # Initialisation
 n_runs = 20
 final = []
-explo = "gaussian"
-dfact = 0.80
+#explo = "gaussian"
+explo = "egreedy"
+dfact = 0.90
 for run in range(n_runs):
     train_env = gymnasium.make('CartpoleEnvCacla')
     train_env = TimeLimit(train_env, max_episode_steps=500)
