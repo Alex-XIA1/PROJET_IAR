@@ -60,12 +60,10 @@ class Cacla_Keras:
         l1_size = 12
 
         model = Sequential()
-        model.add(Dense(l1_size, input_dim=input_dim, activation="tanh",
-                        kernel_initializer=keras.initializers.random_normal(0.0, np.sqrt(1 / input_dim))))
-        model.add(Dense(output_dim, activation="linear",
-                        kernel_initializer=keras.initializers.random_normal(0.0, np.sqrt(1 / l1_size))))
+        model.add(Dense(l1_size, input_dim=input_dim, activation="tanh"))
+        model.add(Dense(output_dim, activation="linear"))
 
-        optim = keras.optimizers.SGD(lr=learning_rate)
+        optim = keras.optimizers.SGD(learning_rate=learning_rate)
         model.compile(loss='mean_squared_error', optimizer=optim)
         return model
 
@@ -77,11 +75,9 @@ class Cacla_Keras:
         l1_size = 12
 
         model = Sequential()
-        model.add(Dense(l1_size, input_dim=input_dim, activation="tanh",
-                        kernel_initializer=keras.initializers.random_normal(0.0, np.sqrt(1 / input_dim))))
-        model.add(Dense(output_dim, activation='linear',
-                        kernel_initializer=keras.initializers.random_normal(0.0, np.sqrt(1 / l1_size))))
+        model.add(Dense(l1_size, input_dim=input_dim, activation="tanh"))
+        model.add(Dense(output_dim, activation='linear'))
 
-        optim = keras.optimizers.SGD(lr=learning_rate)
+        optim = keras.optimizers.SGD(learning_rate=learning_rate)
         model.compile(loss='mean_squared_error', optimizer=optim)
         return model
