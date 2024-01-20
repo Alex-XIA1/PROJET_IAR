@@ -216,8 +216,11 @@ def train(eval_env, train_env, model, eval_interval=5000, step_max=100000, explo
         obs, reward, done, truncated, reste = train_env.step(action+np.random.normal(0,0.1)) 
         reward = model.sample(reward+np.random.normal(0,0.1))
         q1, _ = model(obs)
-        delta = reward + model.discount_factor*q1.detach() - q0
-        (delta**2).backward()
+        target = reward + model.discount_factor*q1.detach()
+        #delta = reward + model.discount_factor*q1.detach() - q0
+        loss = F.mse_loss(q0,target)
+        #(delta**2).backward()
+        loss.backward()
         model.critic_optim.step()
         if torch.rand(1) > model.prob_update: 
             model.actor_optim.zero_grad()
@@ -240,9 +243,9 @@ def train(eval_env, train_env, model, eval_interval=5000, step_max=100000, explo
 # Initialisation
 n_runs = 20
 final = []
-#explo = "gaussian"
-explo = "egreedy"
-dfact = 0.90
+explo = "gaussian"
+#explo = "egreedy"
+dfact = 0.95
 for run in range(n_runs):
     train_env = gymnasium.make('CartpoleEnvCacla')
     train_env = TimeLimit(train_env, max_episode_steps=500)
