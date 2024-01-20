@@ -1,21 +1,12 @@
 import os
 import sys
-from pathlib import Path
 import math
 
-from moviepy.editor import ipython_display as video_display
 import time
-from tqdm.auto import tqdm
 from typing import Tuple, Optional
-from functools import partial
 
 from omegaconf import OmegaConf
 import torch
-import bbrl_gymnasium
-from functools import partial
-
-import copy
-from abc import abstractmethod, ABC
 import torch.nn as nn
 import torch.nn.functional as F
 from time import strftime
@@ -33,14 +24,7 @@ from gymnasium import logger as gymlogger
 from gymnasium.wrappers.record_video import RecordVideo
 gymlogger.set_level(40) #error only
 import numpy as np
-import random
-import matplotlib
-import matplotlib.pyplot as plt
 import math
-import glob
-import io
-import base64
-from IPython.display import HTML
 from torch.optim import SGD, Adam
 
 from gymnasium.envs.classic_control.cartpole import CartPoleEnv
@@ -234,7 +218,7 @@ class Cacla(nn.Module):
     # Loss computation
     def compute_critic_loss(self, value, target):
         delta = (target - value).detach()
-        loss =  mse_loss(value, target)
+        loss =  F.mse_loss(value, target)
         n_update = 1
         if self.with_var and delta > 0:
             n_update = torch.ceil(delta/np.sqrt(self.vart)).item()
@@ -242,7 +226,7 @@ class Cacla(nn.Module):
         return loss, int(n_update)
     
     def compute_actor_loss(self, value, target):
-        return mse_loss(value, target)
+        return F.mse_loss(value, target)
     
     # Exploration
     def sample(self, x):
@@ -307,7 +291,7 @@ def train(eval_env,
         if (target_v - v0).item() > 0: 
             for _ in range(n_update):
                 optim_actor.zero_grad()
-                mse_loss(model.actor_forward(obs), action).backward()
+                F.mse_loss(model.actor_forward(obs0), action).backward()
                 optim_actor.step()
         if done or truncated: obs,_ = train_env.reset()
         if it % (100*(1<<count)) == 0:
@@ -337,7 +321,7 @@ n_runs = 20
 discount_factor = 0.95
 noise_std= 0.3
 exploration = 'gaussian'
-var = False
+var = True
 varname = 'var' if var else 'novar'
 path = f'log/{exploration}/32_{varname}_normobs_gamma{int(discount_factor*100)}_std{noise_std}'
 
